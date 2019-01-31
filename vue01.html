@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="VUE">
+    <meta name="description" content="创建一个简单的导航菜单">     
+    <title>Vue.js 导航菜单</title>
+    <link rel="stylesheet" href="https://common-sl.github.io/css/reset.css">
+    <script src="vue.min.js"></script>
+    <style>
+		nav{
+			width: 1200px;
+			margin-left: auto;
+			margin-right: auto;
+			background: #5597b4;
+			box-shadow: 0 1px 1px #ccc;
+		}
+		nav a{
+			display: inline-block;
+			padding: 18px 30px;
+			color: #fff;
+			font-size: 16px;
+			line-height: 1;
+			text-transform: uppercase;
+			-webkit-transition:background-color 0.25s;
+			-moz-transition:background-color 0.25s;
+			transition:background-color 0.25s;
+		}
+		nav.home .home,
+		nav.project .project,
+		nav.services .services,
+		nav.contact .contact{
+			background: #e35885;
+		}
+		p{
+			font-style: 22px;
+			font-weight: bold;
+			color: #7d9098;
+			margin-top: 20px;
+		}
+		p b{
+			color: #fff;
+			display: inline-block;
+			padding: 5px 10px;
+			background-color: #c4d7e0;
+			border-radius: 2px;
+			text-transform: uppercase;
+			font-size: 18px;
+			margin-left: 10px;
+		}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<nav v-bind:class="active">
+			<!-- 当菜单上的链接被点击时，我们调用了 makeActive 方法, 该方法在 Vue 实例中创建。 -->
+			<a href="#" class="home" @click="makeActive('home')">home</a>
+			<a href="#" class="project" @click="makeActive('project')">project</a>
+			<a href="#" class="services" @click="makeActive('services')">services</a>
+			<a href="#" class="contact" @click="makeActive('contact')">contact</a>
+		</nav>
+		<!-- 以下 "active" 变量会根据当前选中的值来自动变换 -->
+		<p>您选择的是<b>{{active}}</b></p>
+	</div>
+	<script>
+		// 创建一个新的 Vue 实例
+		var demo = new Vue({
+			// DOM 元素，挂载视图模型
+			el:"#main",
+
+			// 定义属性，并设置初始值
+			data:{
+				active:'home',
+			},
+
+			// 点击菜单使用的函数
+			methods:{
+				makeActive:function(item){
+					this.active = item;
+				},
+			},
+		});
+	</script>
+</body>
+</html>

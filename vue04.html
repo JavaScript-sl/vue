@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="VUE">
+    <meta name="description" content="在输入框输入搜索内容，列表显示配置的列表">
+    <title>Vue.js 搜索页面</title>
+    <link rel="stylesheet" href="https://common-sl.github.io/css/reset.css">
+    <script src="vue.min.js"></script>
+    <style>
+	   	.bar{
+	        background-color:#5c9bb7;
+
+	        background-image:-webkit-linear-gradient(top, #5c9bb7, #5392ad);
+	        background-image:-moz-linear-gradient(top, #5c9bb7, #5392ad);
+	        background-image:linear-gradient(top, #5c9bb7, #5392ad);
+
+	        box-shadow: 0 1px 1px #ccc;
+	        border-radius: 2px;
+	        width: 400px;
+	        padding: 14px;
+	        margin: 45px auto 20px;
+	        position:relative;
+	    }
+	    .bar input{
+	        background:#fff no-repeat 13px 13px;
+	        border: none;
+	        width: 100%;
+	        line-height: 19px;
+	        padding: 11px 0;
+
+	        border-radius: 2px;
+	        box-shadow: 0 2px 8px #c4c4c4 inset;
+	        text-align: center;
+	        font-size: 14px;
+	        font-family: inherit;
+	        color: #738289;
+	        outline: none;
+	    }
+	    ul{
+	        list-style: none;
+	        width: 428px;
+	        margin: 0 auto;
+	        text-align: left;
+	    }
+
+	    ul li{
+	        border-bottom: 1px solid #ddd;
+	        padding: 10px;
+	        overflow: hidden;
+	    }
+		ul li a{
+	        padding-top: 12px;
+	        color:#6e7a7f;	    	
+	    }	    
+    </style>
+</head>
+<body>
+	<form id="main" v-cloak>
+		<div class="bar">
+			<!-- searchString 模型与文本域创建绑定 -->
+			<input type="text" placeholder="输入搜索内容" v-model="searchString">
+		</div>
+		<ul>
+			<!-- 循环输出数据 -->
+			<li v-for="website in filteredWebsites">
+				<a v-bind:href="website.url">{{website.title}}</a>
+			</li>
+		</ul>
+	</form>
+	<script>
+		var demo = new Vue({
+			el:"#main",
+			data:{
+				searchString:"",
+				// 数据模型，实际环境你可以根据 Ajax 来获取
+				websites:[
+					{
+						"id":1,
+						"title":"百度",
+						"url":"https://www.baidu.com/"
+					},
+					{
+						"id":2,
+						"title":"必应",
+						"url":"https://cn.bing.com/"
+					},
+					{
+						"id":3,
+						"title":"搜狗",
+						"url":"https://www.sogou.com/"
+					}
+				]
+			},
+			computed:{
+				// 计算数学，匹配搜索
+				filteredWebsites:function(){
+					var websites_array = this.websites,
+						searchString = this.searchString;
+					if (!searchString) {
+						return websites_array;
+					}
+					searchString = searchString.trim().toLowerCase();
+					websites_array = websites_array.filter(function(item){
+						if (item.title.toLowerCase().indexOf(searchString)!==-1) {
+							return item;
+						}
+					})
+					// 返回过来后的数组
+					return websites_array;
+				}
+			}
+		})
+	</script>
+</body>
+</html>
